@@ -12,6 +12,6 @@ Parse.Cloud.beforeSave("TestObject", function(request, response) {
   } else if (request.object.get("foo") > 5) {
     response.error("you cannot give more than five stars");
   } else {
-   response.error("unknow property....!");
+   response.error("unknow property....!!");
   }
 });
