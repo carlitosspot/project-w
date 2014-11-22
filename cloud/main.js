@@ -1,3 +1,4 @@
+var greetings = require('cloud/modules/greetings.js');
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
@@ -17,29 +18,30 @@ Parse.Cloud.beforeSave("Event", function(request, response) {
 });
 
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
+	response.error('hello there!');
+	 // response.error(greetings.sayHelloInEnglish());
+	// var require = function(name, request){
+	// 				if( !request.object.get(name)  && request.object.get(name).length <= 0 )
+	// 					return 'Missing value for '+ name;
+	// 				return '';
+	// 			};
 
-	var require = function(name, request){
-					if( !request.object.get(name)  && request.object.get(name).length <= 0 )
-						return 'Missing value for '+ name;
-					return '';
-				};
+	// var email = request.object.get("email");
+	// 	request.object.set("email", email.toLowerCase());
 
-	var email = request.object.get("email");
-		request.object.set("email", email.toLowerCase());
+	// var query = new Parse.Query(Parse.User);
+	//     query.equalTo('username', request.object.get("username"));
+	//     query.equalTo('email', request.object.get("email"));
+	// 	query.find({
+	// 	  success: function(results) {
+	// 	    // response.error(greetings.sayHelloInEnglish());
+	// 	  },
 
-	var query = new Parse.Query(Parse.User);
-	    query.equalTo('username', request.object.get("username"));
-	    query.equalTo('email', request.object.get("email"));
-		query.find({
-		  success: function(results) {
-		    response.success();
-		  },
-
-		  error: function(error) {
-		    //response.error('Username: '+request.object.get('username')+' is already being used');
-		    response.error(error);
-		  }
-		});
+	// 	  error: function(error) {
+	// 	    //response.error('Username: '+request.object.get('username')+' is already being used');
+	// 	    response.error(greetings.sayHelloInEnglish());
+	// 	  }
+	// 	});
 
 	// var name = request.object.get("username");
 	// response.error("cannot save user: "+name);
