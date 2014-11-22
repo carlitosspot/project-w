@@ -15,3 +15,9 @@ Parse.Cloud.beforeSave("TestObject", function(request, response) {
    response.error("unknow property....!!");
   }
 });
+
+Parse.Cloud.beforeSave(Parse.User, function(request, response) {
+   var name = request.object.get("username");
+		response.error("cannot save user: "+name);
+  
+});
