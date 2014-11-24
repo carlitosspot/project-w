@@ -1,3 +1,6 @@
+var validator = require('cloud/modules/validator.js');
+
+
 exports.sayHelloInEnglish = function() {
   return "HELLO";
 };
@@ -5,3 +8,5 @@ exports.sayHelloInEnglish = function() {
 exports.sayHelloInSpanish = function() {
   return "Hola";
 };
+
+exports.validator = validator;
