@@ -65,10 +65,10 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 
 	var gender = request.object.get('gender');
-		if(typeof genger === 'undefined'){
+		if(typeof gender === 'undefined'){
 			response.error('Gender type missing');
 			return;
-		}else if(gender != 'f' || gender != 'm'){
+		}else if(gender != 'f' && gender != 'm'){
 			response.error('Unknown gender type given');
 			return;
 		}
