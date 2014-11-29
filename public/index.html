@@ -42,15 +42,14 @@
     Parse.initialize("0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", "0MFc7muNwdA2dhT47gedy1SS6G7OOghk4N9qd1Y6");
     
     var user = new Parse.User();
-user.set("username", "wew5dfd");
-user.set("password", "123456");
-user.set("email", "Something4@email.com");
-user.set("gender", "m");
-user.set("birthday", "june");
+user.set("fullName", "test08");
+user.set("username", "test08");
+user.set("password", "9897878");
+user.set("email", "hellothere02@email.com");
+user.set("legalAge", true);
 
 
-// other fields can be set just like with Parse.Object
-user.set("phone", "650-555-0000");
+
   
 user.signUp(null, {
   success: function(user) {
@@ -62,16 +61,16 @@ user.signUp(null, {
   }
 });
 
-    var TestObject = Parse.Object.extend("Event");
-    var testObject = new TestObject();
-      testObject.save({foo: "bar"}, {
-      success: function(object) {
-        $(".success").show();
-      },
-      error: function(model, error) {
-        $(".error").show();
-      }
-    });
+    // var TestObject = Parse.Object.extend("Event");
+    // var testObject = new TestObject();
+    //   testObject.save({foo: "bar"}, {
+    //   success: function(object) {
+    //     $(".success").show();
+    //   },
+    //   error: function(model, error) {
+    //     $(".error").show();
+    //   }
+    // });
   </script>
 </body>
 

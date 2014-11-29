@@ -7,15 +7,15 @@ Parse.Cloud.define("hello", function(request, response) {
 });
 
 
-Parse.Cloud.beforeSave("Event", function(request, response) {
-	if (request.object.get("foo") < 1) {
-		response.error("you cannot give less than one star");
-	} else if (request.object.get("foo") > 5) {
-		response.error("you cannot give more than five stars");
-	} else {
-		response.error("unknow property....!!");
-	}
-});
+// Parse.Cloud.beforeSave("Event", function(request, response) {
+// 	if (request.object.get("foo") < 1) {
+// 		response.error("you cannot give less than one star");
+// 	} else if (request.object.get("foo") > 5) {
+// 		response.error("you cannot give more than five stars");
+// 	} else {
+// 		response.error("unknow property....!!");
+// 	}
+// });
 
 
 
@@ -35,6 +35,27 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 		}else{
 			request.object.set("username", username);
 		}		
+
+
+			// checking username length
+	var fullName = request.object.get('fullName');
+		if(typeof fullName === 'undefined'){
+			response.error('Full name is required');
+			return;
+		}
+
+		fullName = fullName.trim();
+		if( fullName.length == 0 ){
+			response.error('Missing full name');
+			request.object.set("fullName", fullName);
+			return;
+		}else if(fullName.length < 4 ){
+			response.error('Invalid full name');
+			request.object.set("fullName", fullName);
+			return;
+		}else{
+			request.object.set("fullName", fullName);
+		}	
 		
 
 
@@ -56,27 +77,10 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 
 
-
-		// sanitizing email
-		// Note. Email uniquess is handled by Parse
-	// var	email = request.object.get('email');
-	// 	email = email.trim();
-	// 	request.object.set("email", email.toLowerCase());
-
-
-	var gender = request.object.get('gender');
-		if(typeof gender === 'undefined'){
-			response.error('Gender type missing');
-			return;
-		}else if(gender != 'f' && gender != 'm'){
-			response.error('Unknown gender type given');
-			return;
-		}
-
-	var birthday = request.object.get('birthday');
-		if(typeof birthday === 'undefined'){
-			response.error('Birthday date is missing');
-			return;
+	var isLegalAge = request.object.get('legalAge');
+		if(!isLegalAge){
+			response.error('Must be 18 or older');
+			return;	
 		}
 
 		response.success();
