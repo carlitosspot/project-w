@@ -39,27 +39,37 @@
   </div>
 
   <script type="text/javascript">
-    Parse.initialize("0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", "0MFc7muNwdA2dhT47gedy1SS6G7OOghk4N9qd1Y6");
+    // Parse.initialize("0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", "0MFc7muNwdA2dhT47gedy1SS6G7OOghk4N9qd1Y6");
     
-    var user = new Parse.User();
+    Parse.initialize("dZ1qCB7j47MlmNrChAeopaLYn8gkh5XYJFZbMwiV", 
+                    "KrO7AKXc3EX7USPDXefqz74cWkWkW1mS7mMEwWWH");
 
-user.set("fullName", "test08");
-user.set("username", "test08");
-user.set("password", "9897878");
-user.set("email", "hellothere02@email.com");
-user.set("legalAge", true);
+//     var user = new Parse.User();
 
+// user.set("fullName", "test08");
+// user.set("username", "test08");
+// user.set("password", "9897878");
+// user.set("email", "hellothere02@email.com");
+// user.set("legalAge", true);
 
-
->>>>>>> 8e811d0e761cf7844816517822f92ac0b01fb7f6
   
-user.signUp(null, {
-  success: function(user) {
-    // Hooray! Let them use the app now.
+// user.signUp(null, {
+//   success: function(user) {
+//     // Hooray! Let them use the app now.
+//   },
+//   error: function(user, error) {
+//     // Show the error message somewhere and let the user try again.
+//     alert("Error: " + error.code + " " + error.message);
+//   }
+// });
+
+Parse.Cloud.run('email', {}, {
+  success: function(result) {
+      console.log(result);
+    // result is 'Hello world!'
   },
-  error: function(user, error) {
-    // Show the error message somewhere and let the user try again.
-    alert("Error: " + error.code + " " + error.message);
+  error: function(error) {
+    console.log(result);
   }
 });
 

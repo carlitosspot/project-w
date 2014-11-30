@@ -1,9 +1,40 @@
 // var validator = require('cloud/modules/validator.js');
 
+var Mandrill = require('mandrill');
+	Mandrill.initialize('79pLW8k1RLo6cKzxe5S7gQ');
+
+
+
+
+
+
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
-Parse.Cloud.define("hello", function(request, response) {
-	response.success("Hello world!");
+Parse.Cloud.define("email", function(request, response) {
+	Mandrill.sendEmail({
+	  message: {
+	    text: "What's up bitch ass $#$#!",
+	    subject: "Carlitos is on fire!",
+	    from_email: "papichulo@cloudcode.com",
+	    from_name: "Cloud Code",
+	    to: [
+	      {
+	        email: "kervinsvalcourt@gmail.com",
+	        name: "Your Name"
+	      }
+	    ]
+	  },
+	  async: true
+	},{
+	  success: function(httpResponse) {
+	    console.log(httpResponse);
+	    response.success("Email sent!");
+	  },
+	  error: function(httpResponse) {
+	    console.error(httpResponse);
+	    response.error("Uh oh, something went wrong");
+	  }
+	});
 });
 
 

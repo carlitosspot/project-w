@@ -3,6 +3,10 @@
         "_default": {
             "link": "project-w"
         }, 
+        "project-e": {
+            "applicationId": "dZ1qCB7j47MlmNrChAeopaLYn8gkh5XYJFZbMwiV", 
+            "masterKey": "QLjVVfrdvtYMpCfpC4nrBZW9wQTIWns8rw1mxU7g"
+        }, 
         "project-w": {
             "applicationId": "0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", 
             "masterKey": "7sJfDBol14FQCrpZwvY0j7nVjEkJkmqChOQPSAE9"
