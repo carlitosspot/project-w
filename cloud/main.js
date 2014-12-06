@@ -8,45 +8,38 @@ var Mandrill = require('mandrill');
 
 
 
-// Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
-Parse.Cloud.define("email", function(request, response) {
-	Mandrill.sendEmail({
-	  message: {
-	    text: "What's up bitch ass $#$#!",
-	    subject: "Carlitos is on fire!",
-	    from_email: "papichulo@cloudcode.com",
-	    from_name: "Cloud Code",
-	    to: [
-	      {
-	        email: "kervinsvalcourt@gmail.com",
-	        name: "Your Name"
-	      }
-	    ]
-	  },
-	  async: true
-	},{
-	  success: function(httpResponse) {
-	    console.log(httpResponse);
-	    response.success("Email sent!");
-	  },
-	  error: function(httpResponse) {
-	    console.error(httpResponse);
-	    response.error("Uh oh, something went wrong");
-	  }
-	});
+
+Parse.Cloud.define("sendWelcomeEmail", function(request, response) {
+
+	var user = Parse.User.current();
+		if(!user)
+			response.error('No logged in user');
+
+		Mandrill.sendEmail({
+		  message: {
+		    text: "Welcome to NoName. Make a move and you could see some $$ or $$$ added to your bank account.",
+		    subject: "Welcome to NoName",
+		    from_email: user.getEmail(),
+		    from_name: "NoName App",
+		    to: [
+		      {
+		        email: user.getEmail(),
+		        name: user.get('fullName')
+		      }
+		    ]
+		  },
+		  async: true
+		},{
+		  success: function(httpResponse) {
+		    //console.log(httpResponse);
+		    response.success("Email sent!");
+		  },
+		  error: function(httpResponse) {
+		    // console.error(httpResponse);
+		    response.error("Uh oh, something went wrong");
+		  }
+		});
 });
-
-
-// Parse.Cloud.beforeSave("Event", function(request, response) {
-// 	if (request.object.get("foo") < 1) {
-// 		response.error("you cannot give less than one star");
-// 	} else if (request.object.get("foo") > 5) {
-// 		response.error("you cannot give more than five stars");
-// 	} else {
-// 		response.error("unknow property....!!");
-// 	}
-// });
 
 
 
@@ -87,7 +80,6 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 		}else{
 			request.object.set("fullName", fullName);
 		}	
-		
 
 
 		// password must be 6 charaacters or more
@@ -106,8 +98,6 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 	// // 		request.object.set("password", password);
 	// // 	}
 
-
-
 	var isLegalAge = request.object.get('legalAge');
 		if(!isLegalAge){
 			response.error('Must be 18 or older');
@@ -115,5 +105,4 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 		}
 
 		response.success();
-
 });
