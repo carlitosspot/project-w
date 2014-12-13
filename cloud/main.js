@@ -84,19 +84,24 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 		// password must be 6 charaacters or more
 	// var password = request.object.get('password');
-	// 	response.error('password: '+password);
-	// // 	password = password.trim();
-	// // 	if( password.length == 0 ){
-	// // 		response.error('Missing value for password');
-	// // 		request.object.set("password", password);
-	// // 		return;
-	// // 	}else if(password.length < 6 ){
-	// // 		response.error('Password must be 6 or more characters');
-	// // 		request.object.set("password", password);
-	// // 		return;
-	// // 	}else{
-	// // 		request.object.set("password", password);
-	// // 	}
+	// 	if(!password){
+	// 		response.error('password is missing '+request.object.get('password'));
+	// 		return;
+	// 	}
+
+	// 	// return request.error('password: '+password);
+
+	// 	if( password.length == 0 ){
+	// 		response.error('Missing value for password');
+	// 		request.object.set("password", password);
+	// 		return;
+	// 	}else if(password.length < 6 ){
+	// 		response.error('Password must be 6 or more characters');
+	// 		request.object.set("password", password);
+	// 		return;
+	// 	}else{
+	// 		request.object.set("password", password);
+	// 	}
 
 	var isLegalAge = request.object.get('legalAge');
 		if(!isLegalAge){

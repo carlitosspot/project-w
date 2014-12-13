@@ -39,52 +39,52 @@
   </div>
 
   <script type="text/javascript">
-    // Parse.initialize("0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", "0MFc7muNwdA2dhT47gedy1SS6G7OOghk4N9qd1Y6"); // project-w
+     //Parse.initialize("0e3YLZ108fUvdIXaaurjcSVmY0zRROAieiuQ2LwU", "0MFc7muNwdA2dhT47gedy1SS6G7OOghk4N9qd1Y6"); // project-w
     
     Parse.initialize("dZ1qCB7j47MlmNrChAeopaLYn8gkh5XYJFZbMwiV", "KrO7AKXc3EX7USPDXefqz74cWkWkW1mS7mMEwWWH"); // project-e
 
-    // var user = new Parse.User();
+    var user = new Parse.User();
 
-    //     user.set("fullName", "Carlitos R");
-    //     user.set("username", "carlitos");
-    //     user.set("password", "1234567");
-    //     user.set("email", "tkpunisher@gmail.com");
-    //     user.set("legalAge", true);
+        user.set("fullName", "Carlitos R");
+        user.set("username", "carlitos2");
+        user.set("password", "ddddfdfdfdd");
+        user.set("email", "tkpunisher@gmail.com");
+        user.set("legalAge", true);
 
   
-    //   user.signUp(null, {
-    //     success: function(user) {
-    //       // Hooray! Let them use the app now.
-    //     },
-    //     error: function(user, error) {
-    //       // Show the error message somewhere and let the user try again.
-    //       alert("Error: " + error.code + " " + error.message);
-    //     }
-    //   });
+      user.signUp(null, {
+        success: function(user) {
+          // Hooray! Let them use the app now.
+        },
+        error: function(user, error) {
+          // Show the error message somewhere and let the user try again.
+          alert("Error: " + error.code + " " + error.message);
+        }
+      });
 
 
 
         // var currentUser = null;
-    Parse.User.logIn("carlitos", "1234567", {
-      success: function(user) {
+    // Parse.User.logIn("carlitos", "1234567", {
+    //   success: function(user) {
 
-        console.log('Logged in user: '+user.get('fullName'));
+    //     console.log('Logged in user: '+user.get('fullName'));
 
-          Parse.Cloud.run('sendWelcomeEmail', {}, {
-          success: function(result) {
-              console.log(result);
-          },
-          error: function(error) {
-            console.log(error.message);
-          }
-        });
+    //     //   Parse.Cloud.run('sendWelcomeEmail', {}, {
+    //     //   success: function(result) {
+    //     //       console.log(result);
+    //     //   },
+    //     //   error: function(error) {
+    //     //     console.log(error.message);
+    //     //   }
+    //     // });
 
-      },
-      error: function(user, error) {
-        alert('Error: '+error.message);
-      }
+    //   },
+    //   error: function(user, error) {
+    //     alert('Error: '+error.message);
+    //   }
 
-    });
+    // });
 
 
   </script>
