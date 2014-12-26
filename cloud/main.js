@@ -3,6 +3,56 @@
 var Mandrill = require('mandrill');
 	Mandrill.initialize('79pLW8k1RLo6cKzxe5S7gQ');
 
+var Stripe = require('stripe');
+	Stripe.initialize('sk_test_5d5lDT1fJGpTNShVZLFuqncy');
+
+
+
+
+
+Parse.Cloud.define("chargeCard", function(request, response) {
+
+	var token 	= request.params.token;
+	var amount	= request.params.amount
+
+	  // -----validate token --------
+	if(typeof token === 'undefined'){
+		response.error('token is missing');
+		return;
+	}else if(token.length == 0 ){
+		request.params.token = token;
+		response.error('Invalid token');
+		return;
+	}
+	
+
+	  // -----validate amount --------
+	if(typeof amount === 'undefined'){
+		response.error('amount is missing');
+		return;
+	}else if( amount <= 0 ){
+		request.params.amount = amount;
+		response.error('Invalid amount');
+		return;
+	}
+	
+
+	Stripe.Charges.create({
+		amount: amount, 
+	  	currency: "usd",
+	  	card: token 
+	},{
+	  success: function(httpResponse) {
+	    response.success("Charge complete");
+	  },
+	  error: function(httpResponse) {
+	    response.error("Unable to charge credit card"+httpResponse.message);
+	  }
+	});
+});
+
+
+
 
 
 
@@ -36,10 +86,13 @@ Parse.Cloud.define("sendWelcomeEmail", function(request, response) {
 		  },
 		  error: function(httpResponse) {
 		    // console.error(httpResponse);
-		    response.error("Uh oh, something went wrong");
+		    response.error("Uh oh, unable to send welcome email");
 		  }
 		});
 });
+
+
+
 
 
 
@@ -82,27 +135,22 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 		}	
 
 
-		// password must be 6 charaacters or more
-	// var password = request.object.get('password');
-	// 	if(!password){
-	// 		response.error('password is missing '+request.object.get('password'));
-	// 		return;
-	// 	}
+			// ---- email
+	var email = request.object.get('email');
+		if(typeof email === 'undefined'){
+			response.error('email is required');
+			return;
+		}
 
-	// 	// return request.error('password: '+password);
+		email = email.trim();
+		if( email.length == 0 ){
+			response.error('Missing email');
+			request.object.set("email", email);
+			return;
+		}
 
-	// 	if( password.length == 0 ){
-	// 		response.error('Missing value for password');
-	// 		request.object.set("password", password);
-	// 		return;
-	// 	}else if(password.length < 6 ){
-	// 		response.error('Password must be 6 or more characters');
-	// 		request.object.set("password", password);
-	// 		return;
-	// 	}else{
-	// 		request.object.set("password", password);
-	// 	}
 
+		// ---- legal age
 	var isLegalAge = request.object.get('legalAge');
 		if(!isLegalAge){
 			response.error('Must be 18 or older');
