@@ -7,6 +7,14 @@ var Stripe = require('stripe');
 	Stripe.initialize('sk_test_5d5lDT1fJGpTNShVZLFuqncy');
 
 
+// var paypal = require('cloud/node_modules/paypal-rest-sdk/lib/paypal-rest-sdk.js');
+	
+// 	paypal.configure({
+// 					  'host': 'api.sandbox.paypal.com',
+// 					  'client_id': 'AW-bERDWzm8qGK586aqFrDx42THPomnTuIv1UU9MZlayw6TmLD-boIodLBEe',
+// 					  'client_secret': 'EE2YDRBKjQxPKQsbqkCS3DwxHDtfpSPAYlSvqkMFc752JDRxb_cimfDVQ3H7' });
+
+
 
 
 
@@ -59,6 +67,8 @@ Parse.Cloud.define("chargeCard", function(request, response) {
 
 
 
+
+
 Parse.Cloud.define("sendWelcomeEmail", function(request, response) {
 
 	var user = Parse.User.current();
@@ -99,19 +109,19 @@ Parse.Cloud.define("sendWelcomeEmail", function(request, response) {
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 		// checking username length
-	var username = request.object.get('username');
-		username = username.trim();
-		if( username.length == 0 ){
-			response.error('Missing value for username');
-			request.object.set("username", username);
-			return;
-		}else if(username.length < 6 ){
-			response.error('Username must be 6 or more characters');
-			request.object.set("username", username);
-			return;
-		}else{
-			request.object.set("username", username);
-		}		
+	// var username = request.object.get('username');
+	// 	username = username.trim();
+	// 	if( username.length == 0 ){
+	// 		response.error('Missing value for username');
+	// 		request.object.set("username", username);
+	// 		return;
+	// 	}else if(username.length < 6 ){
+	// 		response.error('Username must be 6 or more characters');
+	// 		request.object.set("username", username);
+	// 		return;
+	// 	}else{
+	// 		request.object.set("username", username);
+	// 	}		
 
 
 			// checking username length
@@ -151,11 +161,11 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
 
 		// ---- legal age
-	var isLegalAge = request.object.get('legalAge');
-		if(!isLegalAge){
-			response.error('Must be 18 or older');
-			return;	
-		}
+	// var isLegalAge = request.object.get('legalAge');
+	// 	if(!isLegalAge){
+	// 		response.error('Must be 18 or older');
+	// 		return;	
+	// 	}
 
 		response.success();
 });
