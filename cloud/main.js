@@ -7,12 +7,48 @@ var Stripe = require('stripe');
 	Stripe.initialize('sk_test_5d5lDT1fJGpTNShVZLFuqncy');
 
 
-// var paypal = require('cloud/node_modules/paypal-rest-sdk/lib/paypal-rest-sdk.js');
-	
-// 	paypal.configure({
-// 					  'host': 'api.sandbox.paypal.com',
-// 					  'client_id': 'AW-bERDWzm8qGK586aqFrDx42THPomnTuIv1UU9MZlayw6TmLD-boIodLBEe',
-// 					  'client_secret': 'EE2YDRBKjQxPKQsbqkCS3DwxHDtfpSPAYlSvqkMFc752JDRxb_cimfDVQ3H7' });
+
+Parse.Cloud.define("sendPayout", function(request, response){
+
+	var user = Parse.User.current();
+		if(!user)
+			response.error('Uknown user');
+
+
+	var amount	= request.params.amount;
+
+
+		 // -----validate amount --------
+	if(typeof amount === 'undefined'){
+		response.error('amount is missing');
+		return;
+	}
+
+	amount = parseFloat(amount);
+	if( amount <= 0 ){
+		request.params.amount = amount;
+		response.error('Invalid amount');
+		return;
+	}
+
+    Parse.Cloud.httpRequest({
+		url: 'http://paypal-app-api.herokuapp.com/api/payout',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json;charset=utf-8'
+		},
+		body: {amount: amount},
+		success: function(httpResponse) {
+			response.success(httpResponse.text);
+		},
+		error: function(httpResponse) {
+			response.error(httpResponse);
+		}
+	});
+
+});
+
+
 
 
 
@@ -21,7 +57,7 @@ var Stripe = require('stripe');
 Parse.Cloud.define("chargeCard", function(request, response) {
 
 	var token 	= request.params.token;
-	var amount	= request.params.amount
+	var amount	= request.params.amount;
 
 	  // -----validate token --------
 	if(typeof token === 'undefined'){

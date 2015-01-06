@@ -70,14 +70,14 @@
 
         console.log('Logged in user: '+user.get('fullName'));
 
-        //   Parse.Cloud.run('sendWelcomeEmail', {}, {
-        //   success: function(result) {
-        //       console.log(result);
-        //   },
-        //   error: function(error) {
-        //     console.log(error.message);
-        //   }
-        // });
+          Parse.Cloud.run('sendPayout', {amount: 99.99}, {
+          success: function(result) {
+              console.log(result);
+          },
+          error: function(error) {
+            console.log(error.message);
+          }
+        });
 
       },
       error: function(user, error) {
