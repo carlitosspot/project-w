@@ -44,40 +44,73 @@
     
     Parse.initialize("dZ1qCB7j47MlmNrChAeopaLYn8gkh5XYJFZbMwiV", "KrO7AKXc3EX7USPDXefqz74cWkWkW1mS7mMEwWWH"); // project-e
 
-    // var user = new Parse.User();
-    //     user.set("fullName", "Carlitos R");
-    //     user.set("username", "carlitos3");
-    //     user.set("password", "carlitos3");
-    //     user.set("email", "tkpunisher@gmail.com");
-    //     user.set("legalAge", true);
+    var user = new Parse.User();
+        user.set("fullName", "Carlitos R");
+        user.set("username", "carlitos3");
+        user.set("password", "carlitos3");
+        user.set("email", "tkpunisher@gmail.com");
+        user.set("legalAge", true);
 
   
-    //   user.signUp(null, {
-    //     success: function(user) {
-    //       // Hooray! Let them use the app now.
-    //     },
-    //     error: function(user, error) {
-    //       // Show the error message somewhere and let the user try again.
-    //       alert("Error: " + error.code + " " + error.message);
-    //     }
-    //   });
+      user.signUp(null, {
+        success: function(user) {
+          // Hooray! Let them use the app now.
+        },
+        error: function(user, error) {
+          // Show the error message somewhere and let the user try again.
+          alert("Error: " + error.code + " " + error.message);
+        }
+      });
 
 
 
-    var currentUser = null;
-    Parse.User.logIn("carlitos3", "carlitos3", {
-      success: function(user) {
+    // var currentUser = null;
+    // Parse.User.logIn("carlitos3", "carlitos3", {
+    //   success: function(user) {
 
-        console.log('Logged in user: '+user.get('fullName'));
+    //     currentUser = Parse.User.current()
+    //     console.log(currentUser.id);
+    //     console.log('Logged in user: '+user.get('fullName'));
 
-          Parse.Cloud.run('sendPayout', {amount: 99.99}, {
-          success: function(result) {
-              console.log(result);
-          },
-          error: function(error) {
-            console.log(error.message);
-          }
-        });
+
+
+    //       Parse.Cloud.run('sendPayout', {amount: 99.99, userId: 'n26g1RLjIf'}, {
+    //         success: function(result) {
+    //             console.log(result);
+    //         },
+    //         error: function(error) {
+    //           console.log(error.message);
+    //         }
+    //       });
+
+          //   Parse.Cloud.run('userTest', {userId: currentUser.id}, {
+          //   success: function(result) {
+          //       console.log(result);
+          //   },
+          //   error: function(error) {
+          //     console.log(error.message);
+          //   }
+          // });
+
+
+
+
+
+          
+          // var query = new Parse.Query(Parse.User);
+          // query.equalTo("objectId", '9999999999');
+          // query.first({
+          //   success: function(results) {
+          //     //alert("Successfully retrieved " + results.length + " scores.");
+          //       if(typeof results === 'undefined')
+          //         alert('no user found');
+          //       else
+          //         console.log(results)
+          //   },
+          //   error: function(error) {
+          //     alert("Error: " + error.code + " " + error.message);
+          //   }
+          // });
 
       },
       error: function(user, error) {
@@ -93,41 +126,41 @@
 
   <script>
 
-  $(document).ready(function(){
+  // $(document).ready(function(){
 
-  var handler = StripeCheckout.configure({
-    key: 'pk_test_4jaNNNCGZi1gAapUj9B9DFb5',
-    image: '/square-image.png',
-    token: function(token) {
-      // Use the token to create the charge with a server-side script.
-      // You can access the token ID with `token.id`
+  // var handler = StripeCheckout.configure({
+  //   key: 'pk_test_4jaNNNCGZi1gAapUj9B9DFb5',
+  //   image: '/square-image.png',
+  //   token: function(token) {
+  //     // Use the token to create the charge with a server-side script.
+  //     // You can access the token ID with `token.id`
       
-        Parse.Cloud.run('chargeCard', {token:token.id, amount:100000}, {
-          success: function(result) {
-              console.log(result);
-          },
-          error: function(error) {
-            console.log(error.message);
-          }
-        });
+  //       Parse.Cloud.run('chargeCard', {token:token.id, amount:100000}, {
+  //         success: function(result) {
+  //             console.log(result);
+  //         },
+  //         error: function(error) {
+  //           console.log(error.message);
+  //         }
+  //       });
 
-    }
-  });
+  //   }
+  // });
 
-  $('#customButton').on('click', function(e) {
-    // Open Checkout with further options
-    handler.open({
-      name: 'project Site',
-      description: '2 widgets ($20.00)',
-      amount: 100000
-    });
-    e.preventDefault();
-  });
+  // $('#customButton').on('click', function(e) {
+  //   // Open Checkout with further options
+  //   handler.open({
+  //     name: 'project Site',
+  //     description: '2 widgets ($20.00)',
+  //     amount: 100000
+  //   });
+  //   e.preventDefault();
+  // });
 
-  // Close Checkout on page navigation
-  $(window).on('popstate', function() {
-    handler.close();
-  });  
+  // // Close Checkout on page navigation
+  // $(window).on('popstate', function() {
+  //   handler.close();
+  // });  
 
   });
 

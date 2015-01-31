@@ -8,15 +8,31 @@ var Stripe = require('stripe');
 
 
 
+Parse.Cloud.define("userTest", function(request, response){
+	var userId = request.params.userId;
+  	var query = new Parse.Query(Parse.User);
+      	query.equalTo("objectId", userId);
+      	query.first({
+        success: function(User) {
+          	//alert("Successfully retrieved " + results.length + " scores.");
+            console.log(results)
+        },
+        error: function(error) {
+          	alert("Error: " + error.code + " " + error.message);
+        }
+    });
+});
+
+
+
 Parse.Cloud.define("sendPayout", function(request, response){
 
 	var user = Parse.User.current();
 		if(!user)
-			response.error('Uknown user');
+			response.error('Uknown logged in user');
 
 
 	var amount	= request.params.amount;
-
 
 		 // -----validate amount --------
 	if(typeof amount === 'undefined'){
@@ -31,20 +47,53 @@ Parse.Cloud.define("sendPayout", function(request, response){
 		return;
 	}
 
-    Parse.Cloud.httpRequest({
-		url: 'http://paypal-app-api.herokuapp.com/api/payout',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json;charset=utf-8'
-		},
-		body: {amount: amount},
-		success: function(httpResponse) {
-			response.success(httpResponse.text);
-		},
-		error: function(httpResponse) {
-			response.error(httpResponse);
-		}
-	});
+
+		// ---validate user Id ----------
+
+	var userId	= request.params.userId;
+	var worker 	= null;
+	if(typeof userId === 'undefined' ){
+		response.error('mising user id to be paid');
+		return;
+	}
+
+	var query = new Parse.Query(Parse.User);
+      	query.equalTo("objectId", userId);
+      	query.first({
+        success: function(u) {
+        	if(typeof u === 'undefined'){
+        		response.error('unable to find user: '+userId);
+          		return;
+        	}else{
+				worker = u;
+
+				// 
+				//  pay worker.......
+			    Parse.Cloud.httpRequest({
+					url: 'http://paypal-app-api.herokuapp.com/api/payout',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json;charset=utf-8'
+					},
+					body: {amount: amount, email: worker.getEmail()},
+					success: function(httpResponse) {
+						response.success(httpResponse.text);
+					},
+					error: function(httpResponse) {
+						response.error(httpResponse);
+					}
+				});
+        	}
+        		
+        },
+        error: function(error) {
+          	response.error(error.message);
+          	return;
+        }
+    });
+
+
+     
 
 });
 
