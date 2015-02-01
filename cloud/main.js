@@ -25,6 +25,31 @@ Parse.Cloud.define("userTest", function(request, response){
 
 
 
+
+// setting up a business
+Parse.Cloud.beforeSave('Business', function(request, response){
+
+
+});
+
+
+
+// get list of  buisnesses
+
+Parse.Cloud.define("businesses", function(request, response){  
+	var user = Parse.User.current();
+		if(!user)
+			response.error('No logged in user');
+
+		
+	var result = {name: 'hello there', pictures:['some url 1', 'some url 2']};
+	response.success(result);
+
+
+});
+
+
+
 Parse.Cloud.define("sendPayout", function(request, response){
 
 	var user = Parse.User.current();
@@ -193,64 +218,76 @@ Parse.Cloud.define("sendWelcomeEmail", function(request, response) {
 
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 
-		// checking username length
-	// var username = request.object.get('username');
-	// 	username = username.trim();
-	// 	if( username.length == 0 ){
-	// 		response.error('Missing value for username');
-	// 		request.object.set("username", username);
-	// 		return;
-	// 	}else if(username.length < 6 ){
-	// 		response.error('Username must be 6 or more characters');
-	// 		request.object.set("username", username);
-	// 		return;
-	// 	}else{
-	// 		request.object.set("username", username);
-	// 	}		
+
+	// since save is executed on create and update.,
+	// the validators should only run on update or when the data source is not fb/twitter on create
+
+	// check data source
+	var dataSource = request.object.get('social');
+	if ( typeof dataSource !== 'undefined' && dataSource === 'N') {
+		// Data is coming from user. Execute validators
+
+			// validate first name
+		var firstName = request.object.get('firstName');
+			if(typeof firstName === 'undefined'){
+				response.error('First name is required');
+				return;
+			}
+
+			firstName = firstName.trim();
+			if( firstName.length == 0 ){
+				response.error('Missing first name');
+				request.object.set("firstName", firstName);
+				return;
+			}else if(firstName.length < 2 ){
+				response.error('Invalid first name');
+				request.object.set("firstName", firstName);
+				return;
+			}else{
+				request.object.set("firstName", firstName);
+			}	
 
 
-			// checking username length
-	var fullName = request.object.get('fullName');
-		if(typeof fullName === 'undefined'){
-			response.error('Full name is required');
-			return;
-		}
 
-		fullName = fullName.trim();
-		if( fullName.length == 0 ){
-			response.error('Missing full name');
-			request.object.set("fullName", fullName);
-			return;
-		}else if(fullName.length < 4 ){
-			response.error('Invalid full name');
-			request.object.set("fullName", fullName);
-			return;
-		}else{
-			request.object.set("fullName", fullName);
-		}	
+			// validate first name
+		var lastName = request.object.get('lastName');
+			if(typeof lastName === 'undefined'){
+				response.error('Last name is required');
+				return;
+			}
 
-
-			// ---- email
-	var email = request.object.get('email');
-		if(typeof email === 'undefined'){
-			response.error('email is required');
-			return;
-		}
-
-		email = email.trim();
-		if( email.length == 0 ){
-			response.error('Missing email');
-			request.object.set("email", email);
-			return;
-		}
+			lastName = lastName.trim();
+			if( lastName.length == 0 ){
+				response.error('Missing last name');
+				request.object.set("lastName", lastName);
+				return;
+			}else if(lastName.length < 2 ){
+				response.error('Invalid last name');
+				request.object.set("last", lastName);
+				return;
+			}else{
+				request.object.set("lastName", lastName);
+			}	
 
 
-		// ---- legal age
-	// var isLegalAge = request.object.get('legalAge');
-	// 	if(!isLegalAge){
-	// 		response.error('Must be 18 or older');
-	// 		return;	
-	// 	}
 
-		response.success();
+				// ---- email
+		var email = request.object.get('email');
+			if(typeof email === 'undefined'){
+				response.error('email is required');
+				return;
+			}
+
+			email = email.trim();
+			if( email.length == 0 ){
+				response.error('Missing email');
+				request.object.set("email", email);
+				return;
+			}
+
+			response.success();
+	};
+
+	response.success();
+	
 });
